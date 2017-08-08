@@ -15,13 +15,20 @@ A good resource to know more about Docker and Containerization technology as a w
 ### Docker Installation
 (Ubuntu) This is pretty straightforward. You can either follow the official [Docker Documentation](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) or the [DigitalOcean blog](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04)
 
+### Working without sudo
+The Docker daemon runs as root, which means that users will need to use sudo to run Docker commands.
+To avoid having to use sudo for every Docker command, simply add your user(s) to the docker group with this command.
+```
+usermod -aG docker <username>
+```
+
 ### Basic steps to understand Docker usage
 1. Pull a Base Image:
 You can start off with either just base OS of your choice or OS+additional modules.
 I'm starting off with ubuntu 16.04 as my [base image](https://hub.docker.com/_/ubuntu/). 
 ```
 # docker pull <repository>:<tag>
-sudo docker pull ubuntu:16.04
+docker pull ubuntu:16.04
 ```
 Here, `ubuntu` is the name of the repository (official, public) and `16.04` is the tag/version.
 You can check if the image is present locally by using `docker images` command.
@@ -29,7 +36,7 @@ You can check if the image is present locally by using `docker images` command.
 2. Start a Container:
 To log in the docker container, we can run the command below
 ```
-sudo docker run -i -t -net=host ubuntu:16.04 bash
+docker run -i -t -net=host ubuntu:16.04 bash
 ```
 where,
 `-i` is running the image interactively.
@@ -48,31 +55,46 @@ Any changes made to the docker file lasts only as long as the container is runni
 Create a new image from a container’s changes.
 First, find the container ID. Open a new terminal and type `docker ps` - lists all the running containers. 
 ```
-$ sudo docker ps
+$ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 fd08a7fee149        ubuntu:16.04        "bash"              8 minutes ago       Up 8 minutes                            nostalgic_thompson
 ```
 To commit changes, type the following command:
 ```
-# sudo docker commit -m <commit_message> <container_ID> <repo:tag>
-sudo docker commit -m "first commit" fd08a7fee149 ubuntu:16.04
+# docker commit -m <commit_message> <container_ID> <repo:tag>
+docker commit -m "first commit" fd08a7fee149 ubuntu:16.04
 ```
 If you'd like to save it as a different image:
 ```
-sudo docker commit -m "first commit" fd08a7fee149 myProject:v1
+docker commit -m "first commit" fd08a7fee149 myProject:v1
 ```
+Now when you type the command `sudo docker images`
+5. Pushing changes to your docker hub account
+First, you need to create a docker hub account.
+Then, to login locally, type the following command and enter your credentials 
+```
+docker login
+```
+Now, you can push the new image to your repo by,
+```
+# docker push <dockerhub_username>/<repo>:<tag>
+docker push sakthi2793/myProject:v1
+```
+This should upload all the image layers to your account. 
 
 
-### Working without sudo
-```
-usermod -aG docker [username]
-```
-The Docker daemon runs as root, which means that users will need to use sudo to run Docker commands.
-To avoid having to use sudo for every Docker command, simply add your user(s) to the docker group with the above command.
- 
 ## Using Dockers for Deep Learning
 
-### Docker Login
+### Method 1
+1. Pull Base image
+2. Install necessary packages and setup the desired Deep learning framework (don't forget to commit)
+3. Experiment with Deep learning models using Data Volumes (to load/save data from/to local host)
+
+### Method 2
+1. Create Dockerfile
+2. Build Docker file
+3. Experiment with Deep learning models using Data Volumes (to load/save data from/to local host)
+
 
 ### Saving and Loading Images
  After committing changes to an images, if you wish to save it locally as a tarball:
