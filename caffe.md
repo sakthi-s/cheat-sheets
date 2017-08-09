@@ -8,3 +8,14 @@ For example, in a 4D blob, the value at index (n, k, h, w) is physically located
 [`caffe/python/caffe/io.py`](https://github.com/BVLC/caffe/blob/master/python/caffe/io.py): Can refer to this file to understand more about available funcitons for input/output of data (ex. array_to_datum, array_to_blobproto, Transformer etc.)
 
 ### LMDB
+
+## Training
+
+
+## Issues
+### SolverState snapshot fails when .caffemodel is big
+Store the snapshot in HDF5 format.
+```
+# Add this to the solver.prototxt file
+snapshot_format: HDF5
+```
