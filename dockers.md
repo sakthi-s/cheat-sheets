@@ -113,7 +113,7 @@ docker pull nvidia/cuda:8.0-cudnn5-runtime-ubuntu16.04
 # `-v` <local host directory>:<mount location in container>
 docker run -it --net=host -v /home/sakthi/data/:/data/ -v /home/sakthi/models/:/models/ sakthi2793/caffe-mod:v1
 ```
-Here `-v` is used to mount volumes. This saves me from creating an image of size 100GB+ (size of the data). `sakthi2793` is my dockerhub username and `caffe-mod:v1` is the repo:tag name.
+Here `-v` is used to mount volumes. This saves me from creating an image of size 50GB+ (size of the data). `sakthi2793` is my dockerhub username and `caffe-mod:v1` is the repo:tag name.
 Similarly, `-p` can be use for port map from host to container. Eg. `-p 8080:80` port 8080 on host is connected to port 80 on container.
 
 ### Method 2
