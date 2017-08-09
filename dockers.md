@@ -69,6 +69,12 @@ If you'd like to save it as a different image:
 docker commit -m "first commit" fd08a7fee149 myProject:v1
 ```
 Now when you type the command `sudo docker images`
+If you'd like to remove the old image
+```
+docker rmi <image_name>
+docker rmi ubuntu:16.04
+```
+
 5. Pushing changes to your docker hub account
 First, you need to create a docker hub account.
 Then, to login locally, type the following command and enter your credentials 
@@ -84,17 +90,40 @@ This should upload all the image layers to your account.
 
 
 ## Using Dockers for Deep Learning
+Along with docker, you also need to install nvidia-docker.
+To access GPU, when you run the container, use `nvidia-docker` instead of `docker`. 
+To verify if you have GPU access, use command `nvidia-smi`. 
 
 ### Method 1
 1. Pull Base image
 2. Install necessary packages and setup the desired Deep learning framework (don't forget to commit)
 3. Experiment with Deep learning models using Data Volumes (to load/save data from/to local host)
 
+__Example__: 
+Say you want to set up a custom caffe framework with GPU support. 
+1. Download base image: 
+```
+docker pull nvidia/cuda:8.0-cudnn5-runtime-ubuntu16.04
+```
+2. Install required [dependencies for caffe]. (https://github.com/sakthi-s/Installation-Instructions/blob/master/caffe.md)
+3. Build caffe. 
+4. Commit changes as a new image. 
+5. Run container using data volumes:
+```
+# `-v` <local host directory>:<mount location in container>
+docker run -it --net=host -v /home/sakthi/data/:/data/ -v /home/sakthi/models/:/models/ sakthi2793/caffe-mod:v1
+```
+Here `-v` is used to mount volumes. This saves me from creating an image of size 100GB+ (size of the data). `sakthi2793` is my dockerhub username and `caffe-mod:v1` is the repo:tag name.
+Similarly, `-p` can be use for port map from host to container. Eg. `-p 8080:80` port 8080 on host is connected to port 80 on container.
+
 ### Method 2
 1. Create Dockerfile
 2. Build Docker file
 3. Experiment with Deep learning models using Data Volumes (to load/save data from/to local host)
 
+*Note: You might easily find images or dockerfiles for most of the frameworks available readily. You don't always have to build it from scratch*
+
+### Enabling GUI
 
 ### Saving and Loading Images
  After committing changes to an images, if you wish to save it locally as a tarball:
@@ -105,6 +134,9 @@ This should upload all the image layers to your account.
  ```
  $ docker load < myImage.tar
  ```
+ 
+ ## Other Options
+ 
  ## Issues:
  ### Docker login
  1. docker warning config.json permission denied
