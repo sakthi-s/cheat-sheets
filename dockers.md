@@ -254,4 +254,8 @@ Refer: [stackoverflow answer](https://stackoverflow.com/questions/34031397/runni
 References:
   1. [A Practical Introduction to Docker Containers](https://developers.redhat.com/blog/2014/05/15/practical-introduction-to-docker-containers/)
   2. [A Beginner-Friendly Introduction to Containers, VMs and Docker](https://medium.freecodecamp.org/a-beginner-friendly-introduction-to-containers-vms-and-docker-79a9e3e119b)
-  3. 
+  3. [Running GUI apps with Docker](http://fabiorehm.com/blog/2014/09/11/running-gui-apps-with-docker/)
+  4. [Official Docker Documentation](https://docs.docker.com/)
+  5. [Docker Explained: Using Dockerfiles to Automate Building of Images](https://www.digitalocean.com/community/tutorials/docker-explained-using-dockerfiles-to-automate-building-of-images)
+  6. [Docker RUN vs CMD vs ENTRYPOINT](http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/)
+  
